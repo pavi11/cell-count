@@ -1,0 +1,95 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.js">
+    </script>
+    <!-- <script type="text/javascript" src="main.js"></script> -->
+    <title>Hackathon 18</title>
+  </head>
+<body ng-app= "part1">
+	<div >
+		<div>
+		<p style="margin-left: 400px; font-size: 30px;width:600px;">CELL COUNTING USING DEEP LEARNING</p>
+	</div>
+	<div style ="height: 600px;width: 1400px;margin-top: 70px" ng-controller="RealtimeCtrl">
+
+		<div id="test" style="float: left; clear:float ; height: 600px;width: 700px">
+			<div style="float: left ; height: 100px;width: 600px;clear:float;">`
+					<canvas id="can" style="float: left ; height: 400px;width: 400px;border:1px solid #000000;margin-left: 100px"></canvas>
+					<input type='file' id="ex" accept='image/*' onchange='loadImg(event)' style="margin-top: 30px;margin-left: 250px;width: 200px">
+					<input type="submit" value="TRAIN" style="align-self: center;margin-left: 250px;margin-top:30px;width: 150;font-size: 160px" ng-click="segment()">
+					<p style = "margin-left: 300px;width: 200px">Accuarcy : </p>
+			</div>
+		</div>
+		<div id="test" style="float: left; clear:float ; height: 600px;width: 700px">
+			<div style="float: left ; height: 100px;width: 600px;clear:float;">
+					<canvas id="can2" style="float: left ; height: 400px;width: 400px;border:1px solid #000000;margin-left: 100px"></canvas>
+					<input type='file' accept='image/*' onchange='loadImg2(event)' style="margin-top: 30px;margin-left: 250px;width: 200px">
+					<input type="submit" value="TEST" style="align-self: center;margin-left: 250px;margin-top:30px;width: 150;font-size: 160px" ng-click="test()">
+					<p style = "margin-left: 300px;width: 200px">Cell count : <span ng-bind="count"></span> </p>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script>
+		var trainPath = '';
+		var testPath = '';
+    
+      var part1 = angular.module("part1", []);
+      part1.controller("RealtimeCtrl", function($scope, $http, $timeout) {
+        $scope.param = [];
+        $scope.count = -1;
+      
+        $scope.segment = function(request) {
+          $http.post("api/segment",request);
+        }
+        $scope.train = function(){
+        	$http.post("api/train",trainPath);
+        }
+        $scope.test = function(){
+            // $scope.segment(testPath);
+        	$http.get("http://127.0.0.1:8000/cellcount/predict?filename="+testPath).then(function(response){
+                $scope.count = response.data;
+            });
+        }
+      });
+
+      var loadImg = function(event) {
+    var output = document.getElementById('can');
+    var context = output.getContext('2d');
+    var input = event.target;
+    trainPath = input.files[0].name;
+    var reader = new FileReader();
+    reader.onload = function() {
+        var dataURL = reader.result;
+        var imageObj = new Image();
+        imageObj.src = dataURL;
+        imageObj.onload=function(){
+            context.drawImage(imageObj,0,0,output.width,output.height);
+        }
+    }
+    reader.readAsDataURL(input.files[0]);
+
+	}
+	var loadImg2 = function(event) {
+    var output = document.getElementById('can2');
+    var context = output.getContext('2d');
+    var input = event.target;
+    testPath = input.files[0].name;
+    var reader = new FileReader();
+    reader.onload = function() {
+        var dataURL = reader.result;
+        var imageObj = new Image();
+        imageObj.src = dataURL;
+        imageObj.onload=function(){
+            context.drawImage(imageObj,0,0,output.width,output.height);
+        }
+    }
+    reader.readAsDataURL(input.files[0]);
+}
+    </script>
+
+	<script type="text/javascript">
+	
+	</script>
+</body>
+</html>
