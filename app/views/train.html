@@ -1,0 +1,34 @@
+<div>
+  <div >
+    <div>
+      <p style="margin-left: 400px; font-size: 30px;width:600px;">CELL COUNTING USING DEEP LEARNING</p>
+    </div>
+    <div style ="height: 600px;width: 1400px;margin-top: 70px">
+
+      <div id="test" style="float: left; clear:float ; height: 600px;width: 700px">
+        <div style="float: left ; height: 100px;width: 600px;clear:float;">
+          <div style="height: 400px; width: 400px">
+            <canvas id="can" style="float: left ; height: 400px;width: 400px;border:1px solid #000000;margin-left: 100px"></canvas>
+          </div>
+          <div>
+            <div style="margin-left: auto; margin-right: auto">
+              <input type="file" upload-files name="file" id="file" multiple class="inputfile" />
+              <label for="file">Import Images</label>
+            </div>
+          </div>
+          <input type="submit" value="TRAIN" style="align-self: center;margin-left: 250px;margin-top:30px;width: 150;font-size: 160px" ng-click="segment()">
+          <p style = "margin-left: 300px;width: 200px">Accuarcy : </p>
+        </div>
+      </div>
+      <div id="test" style="float: left; clear:float ; height: 600px;width: 700px">
+        <div style="float: left ; height: 100px;width: 600px;clear:float;">
+          <canvas id="can2" style="float: left ; height: 400px;width: 400px;border:1px solid #000000;margin-left: 100px"></canvas>
+          <input type='file' accept='image/*' onchange='loadImg2(event)' style="margin-top: 30px;margin-left: 250px;width: 200px">
+          <input type="submit" value="TEST" style="align-self: center;margin-left: 250px;margin-top:30px;width: 150;font-size: 160px" ng-click="test()">
+          <p style = "margin-left: 300px;width: 200px">Cell count : <span ng-bind="count"></span> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
